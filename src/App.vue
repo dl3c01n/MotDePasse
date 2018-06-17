@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" style="background-color: #a8a8a8">
+    <app-navbar></app-navbar>
     <app-key></app-key>
   </div>
 </template>
@@ -7,6 +8,7 @@
 <script>
 import Password from "./components/Password.vue"
 import Keyword from "./components/Keyword.vue"
+import Navbar from "./components/Navbar.vue"
 
 export default {
   name: 'app',
@@ -17,7 +19,8 @@ export default {
   },
   components:{
     appPassword: Password,
-    appKey: Keyword
+    appKey: Keyword,
+    appNavbar: Navbar
   }
 }
 </script>
