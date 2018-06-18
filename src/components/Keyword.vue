@@ -1,6 +1,37 @@
 <template>
-    <div style="margin-top: 20px;">
-        <div class="container" style="border: 5px solid red; background-color: white;">
+    <div>
+        <md-dialog-alert
+        style="background-color: white;"
+      :md-active.sync="second"
+      md-content="
+        -3 essais par mot de passe pour le faire deviner<br>
+        -Pas d'indice de la même racine/famille<br>
+        -Les indices ne doivent pas commencer par la même syllabe<br>
+        -Mots composés interdits<br>
+        -Dire le mot à faire deviner<br>
+        -Verbes pronominaux<br>
+        -Traduction dans une langue étrangère<br>
+        -Ne pas mimer/toucher/montrer<br>
+        -Pas de découpage (example : Mot de passe : Bonjour, ne pas faire 'Bon' puis 'Jour')<br>
+        -Ne pas retrouver le mot à faire deviner dans le mot indice (exemple : Mot de passe : Homo, ne pas dire 'Homogène')<br>
+        -Pas d'acronymes, abréviations, marques.
+      "
+      md-confirm-text="Compris" />
+        <md-toolbar class="md-accent" md-elevation="1" style="background-color: #ef4343; color: white;">
+      <h3 class="md-title" style="flex: 1">KeyWord</h3>
+      <md-button style="color: white;" @click="Refresh">Rafraîchir</md-button>
+      <md-button class="md-primary" style="color: white;" @click="second = true">Règles du jeu</md-button>
+    </md-toolbar>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                <md-button class="col-lg-12 col-md-12 col-sm-12" style="color: white;" id="showshow" @click="allowContent">Jouer</md-button>
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="container" v-if="showContent" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
             <div class="row">
                 <div class="col-sm-12 col-lg-8 col-md-10 offset-lg-2 offset-md-1">
                     <div class="row  text-center">
@@ -28,7 +59,7 @@
                         </div>
                     </div>
                     <div class="row text-center" style="margin-top: 130px;">
-                        <div class="col-sm-2 col-lg-2 offset-lg-1 col-md-2 text-center">
+                        <div class="col-sm-2 col-lg-2 offset-lg-1 col-md-2 offset-md-1 text-center">
                             <div class="point"></div>
                         </div>
                         <div class="col-sm-2 col-lg-2 col-md-2 text-center">
@@ -62,7 +93,9 @@ export default {
         return{
             welcome: "Mot De Passe",
             Motsdepasses: ["Jour", "Repas", "Signature", "Nager", "Respirer", "Amour", "Orteil"],
-            count: 30
+            count: 30,
+            second: false,
+            showContent: false
         }
     },
     components:{
@@ -105,6 +138,18 @@ export default {
             this.allowButtons()
             this.count = 30
             this.countDown()
+        },
+        Refresh(){
+            location.reload();
+        },
+         allowContent(){
+              if(this.showContent === false){
+                this.showContent = true
+                document.getElementById('showshow').innerHTML = "Arrêter"
+              }else{
+                this.showContent = false
+                document.getElementById('showshow').innerHTML = "Jouer"
+              }
         }
     },
     components:{
@@ -123,7 +168,7 @@ export default {
 .point{
     background:black;
     width:30%;
-    height:350%;
+    height:30px;
 }
 #startgame{
     background-color: #ef4343;
@@ -133,7 +178,7 @@ export default {
     background-color: #ef4343;
     color: white;
 }
-#gamebuttons{
+.gamebuttons{
     background-color: #ef4343;
     color: white;
 }
