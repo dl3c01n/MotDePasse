@@ -5,18 +5,16 @@
 </template>
 
 <script>
-import Password from "./components/Password.vue"
 import Keyword from "./components/Keyword.vue"
 
 export default {
   name: 'app',
   data () {
     return {
-      
+
     }
   },
   components:{
-    appPassword: Password,
     appKey: Keyword
   }
 }
