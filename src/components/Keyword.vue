@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-dialog-alert
-      style="background-color: white;"
+      style="background-color: #616161; color: white;"
       :md-active.sync="second"
       md-content="
         - 3 essais par mot de passe pour le faire deviner<br />
@@ -78,6 +78,24 @@
           </div>
         </div>
       </div>
+      <md-dialog-alert
+      style="background-color: #fff; color: #EF4343;"
+      :md-active.sync="YouLost"
+      md-content="
+        Tu as perdu!<br>
+        Retente ta chance!
+      "
+      md-confirm-text="Réessayer!"
+    />
+    <md-dialog-alert
+      style="background-color: white;"
+      :md-active.sync="YouWon"
+      md-content="
+        Tu as gagné!<br>
+        Essaye de battre ton record!
+      "
+      md-confirm-text="Go!"
+    />
     </div>
   </div>
 </template>
@@ -99,6 +117,8 @@ export default {
       steps: [],
       currentIndex: 0,
       second: false,
+      YouWon: false,
+      YouLost: false,
       showContent: false,
       playing: false,
       introJs
@@ -140,7 +160,7 @@ export default {
         this.playing = false
       }
       if(this.won){
-      	alert("Tu as gagné!")
+      	this.YouWon = true
       }
     },
     failed (){
@@ -160,7 +180,7 @@ export default {
           }
         }
         	if(this.count == 0){
-        		alert("Tu as perdu")
+        		this.YouLost = true
         	}
       }, 1000)
     },
