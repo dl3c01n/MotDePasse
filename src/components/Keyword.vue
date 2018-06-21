@@ -78,24 +78,28 @@
           </div>
         </div>
       </div>
-      <md-dialog-alert
-      style="background-color: #fff; color: #EF4343;"
-      :md-active.sync="YouLost"
-      md-content="
-        Tu as perdu!<br>
-        Retente ta chance!
-      "
-      md-confirm-text="Réessayer!"
-    />
-    <md-dialog-alert
-      style="background-color: white;"
-      :md-active.sync="YouWon"
-      md-content="
-        Tu as gagné!<br>
-        Essaye de battre ton record!
-      "
-      md-confirm-text="Go!"
-    />
+      <md-dialog-confirm
+        style="background-color: #fff; color: #EF4343;"
+        :md-active.sync="lost"
+        md-content="
+          Tu as perdu!<br>
+          Retente ta chance!
+        "
+        md-confirm-text="Réessayer!"
+        :md-cancel-text="null"
+        @md-confirm="start()"
+      />
+      <md-dialog-confirm
+        style="background-color: white;"
+        :md-active.sync="won"
+        md-content="
+          Tu as gagné!<br>
+          Essaye de battre ton record!
+        "
+        md-confirm-text="Go!"
+        :md-cancel-text="null"
+        @md-confirm="start()"
+      />
     </div>
   </div>
 </template>
@@ -117,8 +121,6 @@ export default {
       steps: [],
       currentIndex: 0,
       second: false,
-      YouWon: false,
-      YouLost: false,
       showContent: false,
       playing: false,
       introJs
@@ -126,11 +128,11 @@ export default {
   },
   computed: {
     won () {
-      return this.steps.every(step => step.found)
+      return this.steps.length && this.steps.every(step => step.found)
     },
     lost () {
       return this.count === 0
-  }
+    }
   },
   methods: {
     select (index) {
@@ -159,9 +161,6 @@ export default {
       } else {
         this.playing = false
       }
-      if(this.won){
-      	this.YouWon = true
-      }
     },
     failed (){
       this.currentIndex = (this.currentIndex + 1) % this.steps.length
@@ -179,9 +178,6 @@ export default {
             this.playing = false
           }
         }
-        	if(this.count == 0){
-        		this.YouLost = true
-        	}
       }, 1000)
     },
     start (n = 5) {
