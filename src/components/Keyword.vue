@@ -4,24 +4,25 @@
       style="background-color: white;"
       :md-active.sync="second"
       md-content="
-        -3 essais par mot de passe pour le faire deviner<br>
-        -Pas d'indice de la même racine/famille<br>
-        -Les indices ne doivent pas commencer par la même syllabe<br>
-        -Mots composés interdits<br>
-        -Dire le mot à faire deviner<br>
-        -Verbes pronominaux<br>
-        -Traduction dans une langue étrangère<br>
-        -Ne pas mimer/toucher/montrer<br>
-        -Pas de découpage (example : Mot de passe : Bonjour, ne pas faire 'Bon' puis 'Jour')<br>
-        -Ne pas retrouver le mot à faire deviner dans le mot indice (exemple : Mot de passe : Homo, ne pas dire 'Homogène')<br>
-        -Pas d'acronymes, abréviations, marques.
+        - 3 essais par mot de passe pour le faire deviner<br />
+        - Pas d'indice de la même racine/famille<br />
+        - Les indices ne doivent pas commencer par la même syllabe<br />
+        - Mots composés interdits<br />
+        - Dire le mot à faire deviner<br />
+        - Verbes pronominaux<br />
+        - Traduction dans une langue étrangère<br />
+        - Ne pas mimer/toucher/montrer<br />
+        - Pas de découpage (example : Mot de passe : Bonjour, ne pas faire 'Bon' puis 'Jour')<br />
+        - Ne pas retrouver le mot à faire deviner dans le mot indice (exemple : Mot de passe : Homo, ne pas dire 'Homogène')<br />
+        - Pas d'acronymes, abréviations, marques.
       "
       md-confirm-text="Compris"
     />
     <md-toolbar class="md-accent" md-elevation="1" style="background-color: #ef4343; color: white;">
       <h3 class="md-title" style="flex: 1">KeyWord</h3>
-      <md-button style="color: white;" @click="refresh">Rafraîchir</md-button>
-      <md-button class="md-primary" style="color: white;" @click="second = true">Règles du jeu</md-button>
+      <md-button style="color: white;" @click="refresh" data-intro="Rafraichir la page ?">Rafraîchir</md-button>
+      <md-button class="md-primary" style="color: white;" @click="second = true" data-intro="voir les règles du jeu" data-highlightClass="text-color: black">Règles du jeu</md-button>
+      <md-button class="md-primary" style="color: white;" @click="help" data-intro="Tu viens de cliquer dessus !">Aide</md-button>
     </md-toolbar>
     <div class="container">
       <div class="row">
@@ -83,6 +84,9 @@
 
 <script>
 import Motsdepasses from './liste_francais'
+import introJs from 'intro.js'
+
+import 'intro.js/introjs.css'
 
 const getRandomInt = max => Math.floor(Math.random() * Math.floor(max))
 
@@ -96,7 +100,8 @@ export default {
       currentIndex: 0,
       second: false,
       showContent: false,
-      playing: false
+      playing: false,
+      introJs
     }
   },
   computed: {
@@ -175,6 +180,23 @@ export default {
       if (!this.showContent) {
         this.playing = false
       }
+    },
+    help () {
+      const options = {
+        nextLabel: 'suivant',
+        prevLabel: 'précédent',
+        doneLabel: 'terminer',
+        skipLabel: 'terminer',
+        overlayOpacity: 1,
+        highlightClass: 'color: black',
+        tooltipClass: 'color: black'
+      }
+      const result = introJs()
+      Object.entries(options).forEach(
+        ([name, value]) => result.setOption(name, value)
+      )
+      result.start()
+      return result
     }
   }
 }
