@@ -65,7 +65,7 @@
             <div
               v-for="(step, index) in steps"
               :key="step.value"
-              class="col-sm-2 col-lg-2 offset-lg-1 col-md-2 offset-md-1 text-center"
+              class="col-sm-2 col-lg-2 col-md-2 text-center"
               @click="select(index)"
             >
               <div class="point" :style="step.found ? 'backgroundColor: green' : ''" />
@@ -110,7 +110,7 @@ export default {
     },
     lost () {
       return this.count === 0
-    }
+  }
   },
   methods: {
     select (index) {
@@ -120,6 +120,7 @@ export default {
     },
     nextWord() {
       this.steps[this.currentIndex].found = true
+
       if (!this.won) {
         for (let index = this.currentIndex; index < this.steps.length; index++) {
           if (!this.steps[index].found) {
@@ -138,6 +139,9 @@ export default {
       } else {
         this.playing = false
       }
+      if(this.won){
+      	alert("Tu as gagné!")
+      }
     },
     failed (){
       this.currentIndex = (this.currentIndex + 1) % this.steps.length
@@ -155,6 +159,9 @@ export default {
             this.playing = false
           }
         }
+        	if(this.count == 0){
+        		alert("Tu as perdu")
+        	}
       }, 1000)
     },
     start (n = 5) {
