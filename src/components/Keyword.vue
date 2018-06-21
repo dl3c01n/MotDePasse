@@ -58,7 +58,7 @@
               <md-button class="md-icon-button md-accent gamebuttons" @click="idk" :disabled="!playing">>></md-button>
             </div>
             <div class="col-sm-3 col-lg-2 col-md-3 offset-lg-7">
-              <md-button class="md-raised md-accent" @click="start()" id="startgame">Start</md-button>
+              <md-button class="md-raised md-accent" @click="start()" id="startgame" :disabled="playing">Start</md-button>
             </div>
           </div>
           <div class="row text-center" style="margin-top: 130px;">
