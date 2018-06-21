@@ -13,7 +13,7 @@ def convert(input):
         with open('{0}.js'.format(name), 'w') as o:
             o.write('export default [\n')
             for line in lines:
-                o.write('  \'{0}\',\n'.format(line.replace('\'', '\\\'')[:-1]))
+                o.write('  \'{0}\',\n'.format(line.replace('\'', '\\\'')))
             o.write(']\n')
 
 if __name__ == '__main__':
