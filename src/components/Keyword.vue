@@ -57,14 +57,14 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-          <md-button class="col-lg-12 col-md-12 col-sm-12" style="color: white;" id="showshow" @click="allowContent">
+          <md-button class="col-lg-12 col-md-12 col-sm-12" style="color: white; font-size: 30px;" id="showshow" @click="allowContent">
             {{ this.showContent ? 'Arrêter' : 'Jouer' }}
           </md-button>
         </div>
       </div>
     </div>
 
-    <div class="container" v-if="showContent" style="background-color: #ecf0f1; margin-top: 20px; margin-bottom: 30px;">
+    <div class="container" v-if="showContent" style="background-color: #ecf0f1; margin-top: 20px; margin-bottom: 500px;">
       <div class="row">
         <div class="col-sm-12 col-lg-8 col-md-10 offset-lg-2 offset-md-1">
           <div class="row  text-center">
@@ -98,11 +98,11 @@
               class="col-sm-2 col-lg-2 col-md-2 text-center"
               @click="select(index)"
             >
-              <div class="point" :style="step.found ? 'backgroundColor: green' : ''" />
+              <div class="point text-center" :style="step.found ? 'backgroundColor: green' : ''" />
             </div>
           </div>
           <div class="row text-center" style=" margin-bottom: 50px;">
-            <div class="col-sm-12 col-lg-12 col-md-12">
+            <div class="col-sm-12 col-lg-12 col-md-12 text-center">
               <h3 style="margin-bottom: 30px;" id="keymdp" v-if="steps.length">{{ steps[this.currentIndex].value }}</h3>
             </div>
           </div>
@@ -252,6 +252,7 @@ export default {
       return result
     },
     changeColorBlue(){
+      this.showContent = true;
       const Colors = document.getElementsByClassName("changecolor");
       Colors[0].style.backgroundColor = "#2980b9"
       Colors[1].style.backgroundColor = "#2980b9"
@@ -260,6 +261,7 @@ export default {
       Colors[4].style.backgroundColor = "#2980b9"
     },
     changeColorGreen(){
+      this.showContent = true;
       const Colors = document.getElementsByClassName("changecolor");
       Colors[0].style.backgroundColor = "#27ae60"
       Colors[1].style.backgroundColor = "#27ae60"
@@ -268,6 +270,7 @@ export default {
       Colors[4].style.backgroundColor = "#27ae60"
     },
     changeColorRed(){
+      this.showContent = true;
       const Colors = document.getElementsByClassName("changecolor");
       Colors[0].style.backgroundColor = "#ef4343"
       Colors[1].style.backgroundColor = "#ef4343"
@@ -276,6 +279,7 @@ export default {
       Colors[4].style.backgroundColor = "#ef4343"
     },
     changeColorOrange(){
+      this.showContent = true;
       const Colors = document.getElementsByClassName("changecolor");
       Colors[0].style.backgroundColor = "#d35400"
       Colors[1].style.backgroundColor = "#d35400"
