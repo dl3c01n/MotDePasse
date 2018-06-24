@@ -18,12 +18,42 @@
       "
       md-confirm-text="Compris"
     />
-    <md-toolbar class="md-accent" md-elevation="1" style="background-color: #ef4343; color: white;">
-      <h3 class="md-title" style="flex: 1">KeyWord</h3>
+    <md-toolbar class="md-accent changecolor" md-elevation="1" style="background-color: #ef4343; color: white;">
+      <a href="." style="flex: 1; color: white;"><h3 class="md-title" style="flex: 1">KeyWord</h3></a>
       <md-button style="color: white;" @click="refresh" data-intro="Rafraichir la page ?">Rafraîchir</md-button>
       <md-button class="md-primary" style="color: white;" @click="second = true" data-intro="voir les règles du jeu" data-highlightClass="text-color: black">Règles du jeu</md-button>
       <md-button class="md-primary" style="color: white;" @click="help" data-intro="Tu viens de cliquer dessus !">Aide</md-button>
     </md-toolbar>
+
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <md-button class="md-icon-button" id="putinred" @click="changeColorRed" data-intro="Changer la couleur du site et du jeu en rouge">
+              <md-icon>home</md-icon>
+              <md-tooltip md-direction="top" style="background-color: #323232; color: #ef4343">Site en rouge!</md-tooltip>
+          </md-button>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <md-button class="md-icon-button" id="putinblue" @click="changeColorBlue" data-intro="Changer la couleur du site et du jeu en bleu">
+              <md-icon>home</md-icon>
+              <md-tooltip md-direction="top" style="background-color: #323232; color: #2980b9">Site en bleu!</md-tooltip>
+          </md-button>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <md-button class="md-icon-button" id="putingreen" @click="changeColorGreen" data-intro="Changer la couleur du site et du jeu en vert">
+              <md-icon>home</md-icon>
+              <md-tooltip md-direction="top" style="background-color: #323232; color: #27ae60">Site en vert!</md-tooltip>
+          </md-button>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <md-button class="md-icon-button" id="putinorange" @click="changeColorOrange" data-intro="Changer la couleur du site et du jeu en orange">
+              <md-icon>home</md-icon>
+              <md-tooltip md-direction="top" style="background-color: #323232; color: #d35400">Site en orange!</md-tooltip>
+          </md-button>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
@@ -34,7 +64,7 @@
       </div>
     </div>
 
-    <div class="container" v-if="showContent" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
+    <div class="container" v-if="showContent" style="background-color: #ecf0f1; margin-top: 20px; margin-bottom: 30px;">
       <div class="row">
         <div class="col-sm-12 col-lg-8 col-md-10 offset-lg-2 offset-md-1">
           <div class="row  text-center">
@@ -49,16 +79,16 @@
           </div>
           <div class="row">
             <div class="col-sm-3 col-lg-1 col-md-3">
-              <md-button class="md-icon-button md-accent gamebuttons" @click="nextWord" :disabled="!playing">✓</md-button>
+              <md-button class="md-icon-button md-accent gamebuttons changecolor" @click="nextWord" :disabled="!playing">✓</md-button>
             </div>
             <div class="col-sm-3 col-lg-1 col-md-3">
-              <md-button class="md-icon-button md-accent gamebuttons" @click="failed" :disabled="!playing">X</md-button>
+              <md-button class="md-icon-button md-accent gamebuttons changecolor" @click="failed" :disabled="!playing">X</md-button>
             </div>
             <div class="col-sm-3 col-lg-1 col-md-3">
-              <md-button class="md-icon-button md-accent gamebuttons" @click="idk" :disabled="!playing">>></md-button>
+              <md-button class="md-icon-button md-accent gamebuttons changecolor" @click="idk" :disabled="!playing">>></md-button>
             </div>
             <div class="col-sm-3 col-lg-2 col-md-3 offset-lg-7">
-              <md-button class="md-raised md-accent" @click="start()" id="startgame" :disabled="playing">Start</md-button>
+              <md-button class="md-raised md-accent changecolor" @click="start()" id="startgame" :disabled="playing">Start</md-button>
             </div>
           </div>
           <div class="row text-center" style="margin-top: 130px;">
@@ -79,13 +109,13 @@
         </div>
       </div>
       <md-dialog-confirm
-        style="background-color: #fff; color: #EF4343;"
+        style="background-color: white;"
         :md-active.sync="lost"
         md-content="
           Tu as perdu!<br>
           Retente ta chance!
         "
-        md-confirm-text="Réessayer!"
+        md-confirm-text="Go!"
         :md-cancel-text="null"
         @md-confirm="start()"
       />
@@ -220,6 +250,38 @@ export default {
       )
       result.start()
       return result
+    },
+    changeColorBlue(){
+      const Colors = document.getElementsByClassName("changecolor");
+      Colors[0].style.backgroundColor = "#2980b9"
+      Colors[1].style.backgroundColor = "#2980b9"
+      Colors[2].style.backgroundColor = "#2980b9"
+      Colors[3].style.backgroundColor = "#2980b9"
+      Colors[4].style.backgroundColor = "#2980b9"
+    },
+    changeColorGreen(){
+      const Colors = document.getElementsByClassName("changecolor");
+      Colors[0].style.backgroundColor = "#27ae60"
+      Colors[1].style.backgroundColor = "#27ae60"
+      Colors[2].style.backgroundColor = "#27ae60"
+      Colors[3].style.backgroundColor = "#27ae60"
+      Colors[4].style.backgroundColor = "#27ae60"
+    },
+    changeColorRed(){
+      const Colors = document.getElementsByClassName("changecolor");
+      Colors[0].style.backgroundColor = "#ef4343"
+      Colors[1].style.backgroundColor = "#ef4343"
+      Colors[2].style.backgroundColor = "#ef4343"
+      Colors[3].style.backgroundColor = "#ef4343"
+      Colors[4].style.backgroundColor = "#ef4343"
+    },
+    changeColorOrange(){
+      const Colors = document.getElementsByClassName("changecolor");
+      Colors[0].style.backgroundColor = "#d35400"
+      Colors[1].style.backgroundColor = "#d35400"
+      Colors[2].style.backgroundColor = "#d35400"
+      Colors[3].style.backgroundColor = "#d35400"
+      Colors[4].style.backgroundColor = "#d35400"
     }
   }
 }
@@ -253,5 +315,36 @@ export default {
 .goodpoint{
     color: green;
     background-color: green;
+}
+a{
+  text-decoration: none;
+  border: none;
+  font-color: white;
+}
+a:hover{
+  text-decoration: none;
+  border: none;
+  font-color: white;
+}
+a:visited{
+  text-decoration: none;
+  border: none;
+  font-color: white;
+}
+#putinred{
+  color: #ef4343;
+  background: #ef4343;
+}
+#putinblue{
+  color: #2980b9;
+  background: #2980b9;
+}
+#putingreen{
+  color: #27ae60;
+  background: #27ae60;
+}
+#putinorange{
+  color: #d35400;
+  background: #d35400;
 }
 </style>
