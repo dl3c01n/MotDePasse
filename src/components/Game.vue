@@ -28,7 +28,7 @@
         </div>
         <div class="row text-center">
           <div class="col-sm-12 col-lg-3 col-md-10">
-            <timer ref="timer" :disabled="!playing" @timeout="timeoutHandler" />
+            <timer ref="timer" :duration="duration" :disabled="!playing" @timeout="timeoutHandler" />
           </div>
         </div>
         <div class="row">
@@ -55,7 +55,7 @@
             <div class="point" :style="step.found ? 'backgroundColor: green' : (index === currentIndex ? 'backgroundColor: orange' : (step.failed ? 'backgroundColor: red' : ''))" />
           </div>
         </div>
-        <div v-if="playing" class="row text-center" style=" margin-bottom: 50px;">
+        <div class="row text-center" style=" margin-bottom: 50px;">
           <div class="col-sm-12 col-lg-12 col-md-12">
             <h3 style="margin-bottom: 30px;" id="keymdp" v-if="steps.length">
               {{ steps[this.currentIndex].value }}
@@ -93,6 +93,9 @@ export default {
     }
   },
   computed: {
+    duration () {
+      return 30 // this.final ? (30 + (6 - this.attempt) * 6) : 30
+    },
     foundSteps () {
       return (this.steps.length && this.steps.map(step => step.found ? 1 : 0).reduce((a, b) => a + b)) || 0
     },
@@ -145,11 +148,7 @@ export default {
     },
     timeoutHandler () {
       this.timeout = true
-      if (this.won) {
-        this.finishPhase(true)
-      } else {
-        this.nextPhase()
-      }
+      this.finishPhase(this.won)
     },
     skipHandler () {
       if (this.final) {
@@ -159,16 +158,28 @@ export default {
       }
     },
     finishGame (won = true) {
-      this.$emit(won ? 'won' : 'lost')
+      if (won) {
+        if (this.final) {
+          this.$emit('won')
+        }
+      } else {
+        this.$emit('lost')
+      }
       this.playing = false
       this.$refs.timer.stop()
     },
     finishPhase (won = false) {
       this.playing = false
-      this.finished = next
+      if (won) {
+        if (this.final) {
+          this.finished = this.attempt !== 6
+        } else {
+          this.finished = this.attempt !== 1
+        }
+      }
       this.$refs.timer.stop()
       if (won) {
-        if ((final && attempt === 6) || (attempt === 3 && !final)) {
+        if ((this.final && this.attempt === 6) || (this.attempt === 3 && !this.final)) {
           this.finishGame(true)
         }
       } else {
@@ -233,6 +244,9 @@ export default {
       this.found = 0
       this.currentIndex = 0
       this.startHandler()
+    },
+    restart () {
+      this.shortcut = true
     }
   }
 }

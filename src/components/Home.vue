@@ -85,7 +85,7 @@
       "
       md-confirm-text="Réessayer!"
       :md-cancel-text="null"
-      @md-confirm="$refs.game.start()"
+      @md-confirm="$refs.game.restart()"
     />
     <md-dialog-confirm
       style="background-color: white;"
@@ -97,7 +97,7 @@
       "
       md-confirm-text="Go!"
       :md-cancel-text="null"
-      @md-confirm="$refs.game.start()"
+      @md-confirm="$refs.game.restart()"
     />
   </div>
 </template>

@@ -38,7 +38,6 @@ export default {
     elapse () {
       setTimeout(
         () => {
-          console.log('timer', this.timeout, this.isEnabled, this.disabled, this.enabled)
           if (this.isEnabled) {
             if (this.timeout === 0) {
               this.$emit('timeout')
