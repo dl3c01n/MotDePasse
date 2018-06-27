@@ -5,15 +5,10 @@
 </template>
 
 <script>
-import Keyword from "./components/Keyword.vue"
+import Keyword from "./components/Home.vue"
 
 export default {
   name: 'app',
-  data () {
-    return {
-
-    }
-  },
   components:{
     appKey: Keyword
   }

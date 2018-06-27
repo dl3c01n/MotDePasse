@@ -28,13 +28,13 @@
     <div class="container">
       <div class="row text-center">
         <div class="col-sm-12 col-md-3 col-lg-3">
-          <md-button class="md-icon-button" id="putinred" @click="changeColorRed" data-intro="Changer la couleur du site et du jeu en rouge">
+          <md-button class="md-icon-button" id="putinred" @click="changeColor('#ef4343')" data-intro="Changer la couleur du site et du jeu en rouge">
               <md-icon>home</md-icon>
               <md-tooltip md-direction="top" style="background-color: #323232; color: #ef4343">Site en rouge!</md-tooltip>
           </md-button>
         </div>
         <div class="col-sm-12 col-md-3 col-lg-3">
-          <md-button class="md-icon-button" id="putinblue" @click="changeColorBlue" data-intro="Changer la couleur du site et du jeu en bleu">
+          <md-button class="md-icon-button" id="putinblue" @click="changeColor('#2980b9')" data-intro="Changer la couleur du site et du jeu en bleu">
               <md-icon>home</md-icon>
               <md-tooltip md-direction="top" style="background-color: #323232; color: #2980b9">Site en bleu!</md-tooltip>
           </md-button>
@@ -251,44 +251,26 @@ export default {
       result.start()
       return result
     },
-    changeColorBlue(){
-      this.showContent = true;
-      const Colors = document.getElementsByClassName("changecolor");
-      Colors[0].style.backgroundColor = "#2980b9"
-      Colors[1].style.backgroundColor = "#2980b9"
-      Colors[2].style.backgroundColor = "#2980b9"
-      Colors[3].style.backgroundColor = "#2980b9"
-      Colors[4].style.backgroundColor = "#2980b9"
-    },
-    changeColorGreen(){
-      this.showContent = true;
-      const Colors = document.getElementsByClassName("changecolor");
-      Colors[0].style.backgroundColor = "#27ae60"
-      Colors[1].style.backgroundColor = "#27ae60"
-      Colors[2].style.backgroundColor = "#27ae60"
-      Colors[3].style.backgroundColor = "#27ae60"
-      Colors[4].style.backgroundColor = "#27ae60"
-    },
-    changeColorRed(){
-      this.showContent = true;
-      const Colors = document.getElementsByClassName("changecolor");
-      Colors[0].style.backgroundColor = "#ef4343"
-      Colors[1].style.backgroundColor = "#ef4343"
-      Colors[2].style.backgroundColor = "#ef4343"
-      Colors[3].style.backgroundColor = "#ef4343"
-      Colors[4].style.backgroundColor = "#ef4343"
-    },
-    changeColorOrange(){
-      this.showContent = true;
-      const Colors = document.getElementsByClassName("changecolor");
-      Colors[0].style.backgroundColor = "#d35400"
-      Colors[1].style.backgroundColor = "#d35400"
-      Colors[2].style.backgroundColor = "#d35400"
-      Colors[3].style.backgroundColor = "#d35400"
-      Colors[4].style.backgroundColor = "#d35400"
+    changeColor (color) {
+      this.showContent = true
+      const colors = Array.from(document.getElementsByClassName('changecolor'))
+      console.log(colors)
+      colors.forEach(
+        item => {
+          item.style.backgroundColor = color
+        }
+      )
     }
   }
 }
+
+const colors = {
+  blue: '#2980b9',
+  green: '#27ae60',
+  red: '#ef4343',
+  orange: '#d35400'
+}
+
 </script>
 
 <style scoped>
