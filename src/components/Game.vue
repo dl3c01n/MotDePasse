@@ -21,9 +21,9 @@
         <div class="row text-center">
           <div class="col-sm-12 col-lg-12 col-md-10 text-center">
             <h1 style="font-weight: bold; text-transform: uppercase; margin-top: -30px;">Mot De Passe</h1>
-            <h4 style="font-weight: bold; text-transform: uppercase;">Phase {{ final ? 'finale' : 'de qualification' }}</h4>
-            <h5 style="font-weight: bold; text-transform: uppercase;">Manche {{ attempt }} / {{ final ? 6 : 3 }}</h5>
-            <h5 v-if="!final" style="font-weight: bold; text-transform: uppercase;">Mots trouvés : {{ found }} / 11</h5>
+            <h4 style="font-weight: bold; text-transform: uppercase;" data-intro="Mot de passe se compose d'une phase de qualification et d'une phase finale">Phase {{ final ? 'finale' : 'de qualification' }}</h4>
+            <h5 style="font-weight: bold; text-transform: uppercase;" data-intro="La phase de qualification comprend 3 manches et la phase finale comprend 6 manches">Manche {{ attempt }} / {{ final ? 6 : 3 }}</h5>
+            <h5 v-if="!final" style="font-weight: bold; text-transform: uppercase;" data-intro="Pour passer en phase finale, il vous faudra trouver 11 mots">Mots trouvés : {{ found }} / 11</h5>
           </div>
         </div>
         <div class="row text-center">

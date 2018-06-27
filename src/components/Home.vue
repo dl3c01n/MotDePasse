@@ -29,7 +29,7 @@
     </md-toolbar>
 
     <div class="container">
-      <div class="row text-center">
+      <div class="row text-center" data-intro="changer la couleur du jeu">
         <div class="col-sm-12 col-md-3 col-lg-3">
           <md-button class="md-icon-button" id="putinred" @click="changeColor('#ef4343')" data-intro="Changer la couleur du site et du jeu en rouge">
               <md-icon>home</md-icon>
