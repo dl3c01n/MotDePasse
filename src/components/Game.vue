@@ -7,6 +7,7 @@
         md-confirm-text="Aller en phase finale"
         @md-cancel="start()"
         @md-confirm="start(true)"
+        style="background-color: black"
       />
 
       <md-dialog-alert
@@ -23,8 +24,7 @@
             <h1 style="font-weight: bold; text-transform: uppercase; margin-top: -30px;">Mot De Passe</h1>
             <h4 style="font-weight: bold; text-transform: uppercase;" data-intro="Mot de passe se compose d'une phase de qualification et d'une phase finale">Phase {{ final ? 'finale' : 'de qualification' }}</h4>
             <h5 style="font-weight: bold; text-transform: uppercase;" data-intro="La phase de qualification comprend 3 manches et la phase finale comprend 6 manches">Manche {{ attempt }} / {{ final ? 6 : 3 }}</h5>
-            <h5 v-if="final" style="font-weight: bold; text-transform: uppercase;" data-intro="Gain en jeu">{{ gains[attempt - 1] }} €</h5>
-            <h5 v-else style="font-weight: bold; text-transform: uppercase;" data-intro="Pour passer en phase finale, il vous faudra trouver 11 mots">Mots trouvés : {{ found }} / 11</h5>
+            <h5 v-if="!final" style="font-weight: bold; text-transform: uppercase;" data-intro="Pour passer en phase finale, il vous faudra trouver 11 mots">Mots trouvés : {{ found }} / 11</h5>
           </div>
         </div>
         <div class="row text-center">
@@ -39,7 +39,7 @@
           <div class="col-sm-3 col-lg-1 col-md-3">
             <md-button class="md-icon-button md-accent gamebuttons backgroundcolor" @click="skipHandler" :disabled="!playing" data-intro="Passer un mot">>></md-button>
           </div>
-          <div class="col-sm-3 col-lg-1 col-md-3">
+          <div class="col-sm-3 col-lg-1 col-md-3" v-if="final">
             <md-button class="md-icon-button md-accent gamebuttons backgroundcolor" @click="failHandler" :disabled="!playing" data-intro="Invalider un mot pour non respect des règles">X</md-button>
           </div>
           <div class="col-sm-3 col-lg-2 col-md-3 offset-lg-7">
@@ -76,8 +76,6 @@ const getRandomInt = max => Math.floor(Math.random() * Math.floor(max))
 
 const newWord = () => Motsdepasses[getRandomInt(Motsdepasses.length)]
 
-const gains = [10000, 20000, 25000, 50000, 75000, 100000]
-
 export default {
   components: {
     Timer
@@ -92,8 +90,7 @@ export default {
       playing: false,
       attempt: 1,
       found: 0,
-      finished: false,
-      gains
+      finished: false
     }
   },
   computed: {
@@ -144,15 +141,11 @@ export default {
       }
     },
     failHandler () {
-      if (this.final) {
-        this.steps[this.currentIndex].failed = true
-        if ((this.steps.length - this.failed) < 5) {
-          this.finishGame(false)
-        }
-        this.nextIndex()
-      } else {
-        this.skipHandler()
+      this.steps[this.currentIndex].failed = true
+      if ((this.steps.length - this.failed) < 5) {
+        this.finishGame(false)
       }
+      this.nextIndex()
     },
     timeoutHandler () {
       this.timeout = true
