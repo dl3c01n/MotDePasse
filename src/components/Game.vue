@@ -14,7 +14,7 @@
         v-if="attempt > 1"
         :md-active.sync="finished"
         :md-backdrop="false"
-        :md-title="`Phase ${final ? 'finale' : 'de qualification'} - manche ${attempt} / ${final ? 6 : 3} terminée`"
+        :md-title="`Phase ${final ? 'finale' : 'de qualification'} - manche ${attempt} / ${final ? 6 : 2} terminée`"
         md-content="Appuyer sur START pour démarrer la manche suivante !"
       />
 
@@ -23,9 +23,9 @@
           <div class="col-sm-12 col-lg-12 col-md-10 text-center">
             <h1 style="font-weight: bold; text-transform: uppercase; margin-top: -30px;">Mot De Passe</h1>
             <h4 style="font-weight: bold; text-transform: uppercase;" data-intro="Mot de passe se compose d'une phase de qualification et d'une phase finale">Phase {{ final ? 'finale' : 'de qualification' }}</h4>
-            <h5 style="font-weight: bold; text-transform: uppercase;" data-intro="La phase de qualification comprend 3 manches et la phase finale comprend 6 manches">Manche {{ attempt }} / {{ final ? 6 : 3 }}</h5>
+            <h5 style="font-weight: bold; text-transform: uppercase;" data-intro="La phase de qualification comprend 2 manches et la phase finale comprend 6 manches">Manche {{ attempt }} / {{ final ? 6 : 2 }}</h5>
             <h5 v-if="final" style="font-weight: bold; text-transform: uppercase;" data-intro="Gains si manche terminée">Gain possible {{ gains[attempt -1] }}€ {{ attempt > 1 ? `(en poche : ${gains[attempt - 2]}€)` : '' }}</h5>
-            <h5 v-else style="font-weight: bold; text-transform: uppercase;" data-intro="Pour passer en phase finale, il vous faudra trouver 11 mots">Mots trouvés : {{ found }} / 11</h5>
+            <h5 v-else style="font-weight: bold; text-transform: uppercase;" data-intro="Pour passer en phase finale, il vous faudra trouver 7 mots">Mots trouvés : {{ found }} / 7</h5>
           </div>
         </div>
         <div class="row text-center">
@@ -108,7 +108,7 @@ export default {
       return (this.steps.length && this.steps.map(step => step.failed ? 1 : 0).reduce((a, b) => a + b)) || 0
     },
     won () {
-      return this.foundSteps >= 5 || this.found >= 11
+      return this.foundSteps >= 5 || this.found >= 7
     },
     lost () {
       return this.timeout || (this.steps.length - this.failed) > this.nfound
@@ -184,7 +184,7 @@ export default {
       }
       this.$refs.timer.stop()
       if (won) {
-        if ((this.final && this.attempt === 6) || (this.attempt === 3 && !this.final)) {
+        if ((this.final && this.attempt === 6) || (this.attempt === 2 && !this.final)) {
           this.finishGame(true)
         }
       } else {
@@ -209,18 +209,18 @@ export default {
           }
         }
       } else {
-        if (this.found >= 11) {
+        if (this.found >= 7) {
           this.final = true
           this.found = 0
           this.attempt = 1
-        } else if (this.attempt === 3) {
+        } else if (this.attempt === 2) {
           return this.finishGame(false)
         } else {
           this.attempt += 1
         }
       }
 
-      const nsteps = this.final ? (11 - this.attempt) : 5
+      const nsteps = this.final ? (7 - this.attempt) : 5
 
       this.steps = Object.assign(
         [],
