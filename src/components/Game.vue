@@ -47,7 +47,7 @@
             <md-button class="md-raised md-accent backgroundcolor" @click="startHandler()" id="startgame" :disabled="playing" data-intro="Commencer la partie">Start</md-button>
           </div>
         </div>
-        <div class="row text-center" style="margin-top: 130px;">
+        <div class="row text-center offset-lg-1" style="margin-top: 130px; margin-bottom: 30px;">
           <div
             v-for="(step, index) in steps"
             :key="step.value"
@@ -59,7 +59,7 @@
         </div>
         <div class="row text-center" style=" margin-bottom: 50px;">
           <div class="col-sm-12 col-lg-12 col-md-12">
-            <h3 style="margin-bottom: 30px;" id="keymdp" v-if="steps.length">
+            <h3 style="margin-bottom: 30px; text-transform: capitalize" id="keymdp" v-if="steps.length">
               {{ steps[this.currentIndex].value }}
             </h3>
           </div>
@@ -263,8 +263,9 @@ export default {
 }
 .point {
     background:black;
-    width:30%;
+    width:30px;
     height:30px;
+    border-radius: 100%
 }
 #startgame {
     background-color: #ef4343;
