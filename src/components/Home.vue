@@ -26,6 +26,7 @@
       <md-button style="color: white;" @click="refresh" data-intro="actualise la page en case de soucis">Rafraîchir</md-button>
       <md-button class="md-primary" style="color: white;" @click="showRules = true" data-intro="affiche les règles du jeu">Règles du jeu</md-button>
       <md-button class="md-primary" style="color: white;" @click="help()">Aide</md-button>
+      <a href="mailto:bug@motdepasse.game?subject=bug" class="md-primary" style="color: white;" data-intro="signaler un bug">Reporting</a>
     </md-toolbar>
 
     <div class="container">
