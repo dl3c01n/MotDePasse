@@ -20,7 +20,6 @@ export default {
   data () {
     return {
       timeout: this.duration,
-      elapsing: false,
       enabled: !this.disabled
     }
   },
@@ -40,6 +39,7 @@ export default {
         () => {
           if (this.isEnabled) {
             if (this.timeout === 0) {
+              this.enabled = false
               this.$emit('timeout')
             } else {
               this.timeout -= 1
@@ -54,7 +54,10 @@ export default {
       this.enabled = false
     },
     again () {
-      this.enabled = true
+      if (this.enabled === false) {
+        this.enabled = true
+        this.elapse()
+      }
     }
   }
 }

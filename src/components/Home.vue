@@ -26,7 +26,7 @@
       <md-button style="color: white;" @click="refresh" data-intro="actualise la page en case de soucis">Rafraîchir</md-button>
       <md-button class="md-primary" style="color: white;" @click="showRules = true" data-intro="affiche les règles du jeu">Règles du jeu</md-button>
       <md-button class="md-primary" style="color: white;" @click="help()">Aide</md-button>
-      <a href="mailto:b3j0f+2hpvlb7u9j07xjq2yzr+2qionn0vdzeqqsd4m31+0ou74vv1s7@boards.trello.com?subject=bug" class="md-primary" style="color: white;" data-intro="signaler un bug">Reporting</a>
+      <a href="mailto:b3j0fs+2hpvlb7u9j07xjq2yzr+2qionn0vdzeqqsd4m31+0ou74vv1s7@boards.trello.com?subject=bug" class="md-primary" style="color: white;" data-intro="signaler un bug">Reporting</a>
     </md-toolbar>
 
     <div class="container">
@@ -68,37 +68,34 @@
       </div>
     </div>
 
-    <div v-if="playing" class="container bordercolor" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
+    <div class="container bordercolor" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
       <game
-        @won="wonHandler"
-        @lost="lostHandler"
+        @won="finished = true"
+        @lost="finished = true"
         ref="game"
       />
     </div>
 
     <md-dialog-confirm
-      style="background-color: #fff; color: #EF4343;"
-      :md-active.sync="lost"
-      :md-backdrop="false"
-      md-content="
-        Tu as perdu!<br />
-        Retente ta chance!
-      "
-      md-confirm-text="Réessayer!"
-      :md-cancel-text="null"
-      @md-confirm="$refs.game.restart()"
+      :md-active.sync="type"
+      :md-backdrop="true"
+      md-cancel-text="Jouer les qualifications"
+      md-confirm-text="Aller en phase finale"
+      @md-cancel="$refs.game && $refs.game.start('qualification')"
+      @md-confirm="$refs.game && $refs.game.start('final')"
+      style="background: white"
     />
+
     <md-dialog-confirm
-      style="background-color: white;"
-      :md-active.sync="won"
+      style="background-color: #fff; color: #EF4343;"
+      :md-active.sync="finished"
       :md-backdrop="false"
-      md-content="
-        Tu as gagné!<br />
-        Essaye de battre ton record!
+      :md-content="`
+        Tu as ${won ? 'gagné' : 'perdu'}!<br />
+        ${won ? 'Essaye de battre ton record' : 'Retente ta chance'} !`
       "
-      md-confirm-text="Go!"
-      :md-cancel-text="null"
-      @md-confirm="$refs.game.restart()"
+      :md-confirm-text="`${won ? 'Go' : 'Réessayer'} !`"
+      @md-confirm="retry()"
     />
   </div>
 </template>
@@ -115,12 +112,21 @@ export default {
   data () {
     return {
       showRules: false,
-      lost: false,
-      won: false,
-      playing: false
+      finished: false,
+      playing: false,
+      type: true
+    }
+  },
+  computed: {
+    won () {
+      return this.$refs.game && this.$refs.game.state === 'won'
     }
   },
   methods: {
+    retry () {
+      this.finished = false
+      this.type = true
+    },
     refresh () {
       location.reload();
     },
