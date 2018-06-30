@@ -1,10 +1,16 @@
 <template>
     <div class="row">
-      <md-dialog-alert
+      <md-dialog-confirm
+        v-if="phase > 0"
         :md-active.sync="pause"
-        :md-backdrop="false"
+        :md-backdrop="true"
         :md-title="`Phase ${type === 'final' ? 'finale' : 'de qualification'} - manche ${phase} / ${type === 'final' ? finalPhases : qualificationPhases} terminée`"
-        md-content="Appuyer sur START pour démarrer la manche suivante !"
+        :md-content="`Appuyer sur START pour démarrer la ${type === 'qualitication' && phase === qualificationPhases ? 'finale' : 'manche suivante'} !`"
+        md-cancel-text="Sauvegarder la partie"
+        md-confirm-text="Prochaine manche"
+        @md-cancel="save()"
+        @md-confirm="nextPhase()"
+        style="background: white"
       />
 
       <div class="col-sm-12 col-lg-8 col-md-10 offset-lg-2 offset-md-1">
@@ -19,9 +25,10 @@
         </div>
         <div class="row text-center">
           <div class="col-sm-12 col-lg-3 col-md-10">
-            <timer ref="timer" :duration="duration" :disabled="state !== 'playing'" @timeout="timeoutHandler" />
+            <timer ref="timer" :duration="duration" :disabled="playing" @timeout="timeoutHandler" />
           </div>
         </div>
+        <p v-if="ready">Appuyez sur START pour démarrer</p>
         <div class="row">
           <div class="col-sm-3 col-lg-1 col-md-3">
             <md-button class="md-icon-button md-accent gamebuttons backgroundcolor" @click="foundHandler" :disabled="state !== 'playing'" data-intro="Valider un mot" >✓</md-button>
@@ -88,7 +95,7 @@ export default {
   },
   data () {
     return {
-      state: 'new',
+      state: 'pause',
       timeout: false,
       steps: [],
       currentIndex: 0,
@@ -113,6 +120,21 @@ export default {
     },
     failedSteps () {
       return this.countSteps('failed')
+    },
+    pause () {
+      return this.state === 'pause'
+    },
+    won () {
+      return this.state === 'won'
+    },
+    lost () {
+      return this.state === 'lost'
+    },
+    playing () {
+      return this.state === 'playing'
+    },
+    ready () {
+      return this.state === 'ready'
     }
   },
   methods: {
@@ -137,15 +159,18 @@ export default {
         this.finishPhase()
       }
     },
-    lost () {
+    loose () {
       this.$refs.timer.stop()
       this.state = 'lost'
       this.$emit('lost')
     },
-    won () {
+    win () {
       this.$refs.timer.stop()
       this.state = 'won'
       this.$emit('won')
+    },
+    save () {
+      alert('disponible dans la prochaine version...')
     },
     finishPhase () {
       this.$refs.timer.stop()
@@ -154,20 +179,19 @@ export default {
     foundHandler () {
       this.steps[this.currentIndex].state = 'found'
 
-      this.found += 1
-
       switch (this.type) {
         case 'qualification':
+          this.found += 1
           if (this.found === this.qualificationObjective) {
-            this.won()
+            this.win()
           } else {
             this.nextAvailableIndex()
           }
           break
         case 'final':
-          if (this.found === 5) {
+          if (this.foundSteps === 5) {
             if (this.phase === this.finalPhases) {
-              this.won()
+              this.win()
             } else {
               this.finishPhase()
             }
@@ -179,13 +203,13 @@ export default {
       }
     },
     failHandler () {
-      this.steps[this.currentIndex].failed = true
+      this.steps[this.currentIndex].state = 'failed'
 
       switch (this.type) {
         case 'qualification':
           if (this.availableSteps === 0) {
             if ((this.found + this.availableSteps + (this.qualificationPhases - this.phase) * 5) < this.qualificationObjective) {
-              this.lost()
+              this.loose()
             } else {
               this.finishPhase()
             }
@@ -195,7 +219,7 @@ export default {
           break
         case 'final':
           if ((this.steps.length - this.failedSteps) < 5) {
-            this.lost()
+            this.loose()
           } else {
             this.nextAvailableIndex()
           }
@@ -209,13 +233,13 @@ export default {
       switch (this.type) {
         case 'qualification':
           if (this.state === 'playing' && this.phase === this.qualificationPhases) {
-            this.lost()
+            this.loose()
           } else {
             this.finishPhase()
           }
           break
         case 'final':
-          this.lost()
+          this.loose()
           break
         default: throw new Error(`Unknown game type: "${this.type}"`)
       }
@@ -242,6 +266,10 @@ export default {
       )
     },
     nextPhase () {
+      this.state = 'ready'
+
+      this.currentIndex = 0
+
       switch (this.type) {
         case 'qualification':
           if (this.phase === this.qualificationPhase) {
@@ -249,6 +277,7 @@ export default {
           }
         case 'final':
           this.phase += 1
+          break
         default: throw new Error(`Unknown game type: "${this.type}"`)
       }
       this.renewSteps()
@@ -257,12 +286,15 @@ export default {
       this.state = 'playing'
       this.$refs.timer.start()
     },
+    init () {
+      this.found = 0
+      this.phase = 1
+    },
     start (type) {
-      this.state = 'new'
+      this.state = 'pause'
       this.type = type || this.type
       this.phase = 0
       this.found = 0
-      this.currentIndex = 0
       this.nextPhase()
     }
   }

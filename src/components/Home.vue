@@ -70,8 +70,8 @@
 
     <div class="container bordercolor" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
       <game
-        @won="finished = true"
-        @lost="finished = true"
+        @won="wonHandler"
+        @lost="lostHandler"
         ref="game"
       />
     </div>
@@ -81,20 +81,31 @@
       :md-backdrop="true"
       md-cancel-text="Jouer les qualifications"
       md-confirm-text="Aller en phase finale"
-      @md-cancel="$refs.game && $refs.game.start('qualification')"
-      @md-confirm="$refs.game && $refs.game.start('final')"
+      @md-cancel="qualificationHandler()"
+      @md-confirm="finalHandler()"
+      style="background: white"
+    />
+
+    <md-dialog-confirm
+      :md-active.sync="final"
+      :md-backdrop="true"
+      md-title="Vous venez de vous qualifier pour la finale"
+      md-confirm-text="Aller en finale !"
+      md-cancel-text=""
+      @md-confirm="finalHandler()"
       style="background: white"
     />
 
     <md-dialog-confirm
       style="background-color: #fff; color: #EF4343;"
       :md-active.sync="finished"
-      :md-backdrop="false"
+      :md-backdrop="true"
       :md-content="`
         Tu as ${won ? 'gagné' : 'perdu'}!<br />
         ${won ? 'Essaye de battre ton record' : 'Retente ta chance'} !`
       "
       :md-confirm-text="`${won ? 'Go' : 'Réessayer'} !`"
+      md-cancel-text=""
       @md-confirm="retry()"
     />
   </div>
@@ -113,13 +124,15 @@ export default {
     return {
       showRules: false,
       finished: false,
+      result: '',
       playing: false,
-      type: true
+      type: true,
+      final: false
     }
   },
   computed: {
     won () {
-      return this.$refs.game && this.$refs.game.state === 'won'
+      return this.result === 'won'
     }
   },
   methods: {
@@ -134,10 +147,22 @@ export default {
       this.playing = true
     },
     wonHandler () {
-      this.won = true
+      if (this.$refs.game.type === 'qualification') {
+        this.final = true
+      } else {
+        this.finished = true
+        this.result = 'won'
+      }
     },
     lostHandler () {
-      this.lost = true
+      this.finished = true
+      this.result = 'lost'
+    },
+    qualificationHandler () {
+      this.$refs.game.start('qualification')
+    },
+    finalHandler () {
+      this.$refs.game.start('final')
     },
     help (options = {}) {
       const finalOptions = {
