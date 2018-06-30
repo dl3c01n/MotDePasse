@@ -26,7 +26,7 @@
       <md-button style="color: white;" @click="refresh" data-intro="actualise la page en case de soucis">Rafraîchir</md-button>
       <md-button class="md-primary" style="color: white;" @click="showRules = true" data-intro="affiche les règles du jeu">Règles du jeu</md-button>
       <md-button class="md-primary" style="color: white;" @click="help()">Aide</md-button>
-      <a href="mailto:b3j0fs+2hpvlb7u9j07xjq2yzr+2qionn0vdzeqqsd4m31+0ou74vv1s7@boards.trello.com?subject=bug" class="md-primary" style="color: white;" data-intro="signaler un bug">Reporting</a>
+      <a href="mailto:b3j0fs+2hpvlb7u9j07xjq2yzr+2qionn0vdzeqqsd4m31+0ou74vv1s7@boards.trello.com?subject=bug" class="md-primary" style="color: white;" data-intro="signaler un bug">Signaler un problème</a>
     </md-toolbar>
 
     <div class="container">
