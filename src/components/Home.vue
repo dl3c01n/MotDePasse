@@ -72,7 +72,6 @@
 
     <div class="container bordercolor" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
       <game
-        v-if="playing"
         @won="wonHandler"
         @lost="lostHandler"
         ref="game"
