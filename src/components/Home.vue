@@ -72,6 +72,7 @@
 
     <div class="container bordercolor" style="border: 5px solid red; background-color: white; margin-top: 20px; margin-bottom: 30px;">
       <game
+        v-if="playing"
         @won="wonHandler"
         @lost="lostHandler"
         ref="game"
@@ -79,6 +80,7 @@
     </div>
 
     <md-dialog-confirm
+      v-if="playing"
       :md-active.sync="type"
       :md-backdrop="true"
       md-cancel-text="Jouer les qualifications"
@@ -146,7 +148,7 @@ export default {
       location.reload();
     },
     startHandler () {
-      this.playing = true
+      this.playing = !this.playing
     },
     wonHandler () {
       if (this.$refs.game.type === 'qualification') {
