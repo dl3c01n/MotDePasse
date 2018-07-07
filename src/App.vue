@@ -1,19 +1,19 @@
 <template>
   <div id="app" style="background-color: #a8a8a8">
-    <app-key></app-key>
-    <app-foot style="width: 100%"></app-foot>
+    <app-key />
+    <app-footer style="width: 100%" />
   </div>
 </template>
 
 <script>
 import Keyword from "./components/Home.vue"
-import Foot from "./components/Foot.vue"
+import Footer from "./components/Footer.vue"
 
 export default {
   name: 'app',
   components:{
     appKey: Keyword,
-    appFoot: Foot
+    appFooter: Footer
   }
 }
 </script>

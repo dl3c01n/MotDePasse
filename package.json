@@ -1,8 +1,8 @@
 {
-  "name": "motdepasse",
+  "name": "KeyWord",
   "description": "VueJS project about the game Password",
-  "version": "1.0.0",
-  "author": "David Lecoin/Jonathan Labejof",
+  "version": "0.0.1",
+  "author": "David Lecoin/Jonathan Labéjof",
   "license": "MIT",
   "private": true,
   "scripts": {
