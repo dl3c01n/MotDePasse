@@ -4,6 +4,8 @@
       style="background-color: #616161; color: white;"
       :md-active.sync="showRules"
       md-content="
+        KeyWord est un jeu de lettre par équipe de 2 joueurs , où le but est de faire deviner à l'autre joueur un mot en donnant un seul indice en respectant les règles suivants :<br />
+        <br />
         - 3 essais par mot de passe pour le faire deviner<br />
         - Pas d'indice de la même racine/famille<br />
         - Les indices ne doivent pas commencer par la même syllabe<br />
