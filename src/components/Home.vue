@@ -88,8 +88,9 @@
       :md-backdrop="true"
       md-title="Vous venez de vous qualifier pour la finale"
       md-confirm-text="Aller en finale !"
-      md-cancel-text=""
+      md-cancel-text="Rejouer les qualifications"
       @md-confirm="startHandler('final')"
+      @md-cancel="retry()"
       style="background: white"
     />
 
@@ -113,6 +114,8 @@ import Game from './Game.vue'
 import introJs from 'intro.js'
 import 'intro.js/introjs.css'
 
+const types = ['qualification', 'final', 'time attack']
+
 export default {
   components: {
     Game
@@ -122,9 +125,9 @@ export default {
       showRules: false,
       finished: false,
       result: '',
-      type: 'qualification',
+      type: types[0],
       final: false,
-      types: ['qualification', 'final', 'time attack']
+      types
     }
   },
   mounted () {
@@ -138,7 +141,9 @@ export default {
   methods: {
     retry () {
       this.finished = false
-      this.type = true
+      if (this.type === 'final') {
+        this.type = 'qualification'
+      }
     },
     refresh () {
       location.reload();
