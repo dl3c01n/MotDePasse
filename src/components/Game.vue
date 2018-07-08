@@ -11,6 +11,8 @@
         @md-cancel="save()"
         @md-confirm="nextPhase()"
         style="background: white"
+        :md-close-on-esc="false"
+        :md-click-outside-to-close="false"
       />
 
       <div class="col-sm-12 col-lg-8 col-md-10 offset-lg-2 offset-md-1">

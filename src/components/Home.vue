@@ -65,7 +65,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
           <md-button
             v-for="_type in types" :key="_type"
-            :class="`${_type === type ? 'md-flat' : ''} md-raised backgroundcolor bordercolor`"
+            :class="`${_type === type ? 'md-flat' : 'md-raised'} backgroundcolor`"
             style="background-color: #ef4343;"
             @click="startHandler(_type)"
             >
@@ -91,6 +91,8 @@
       md-cancel-text="Rejouer les qualifications"
       @md-confirm="startHandler('final')"
       @md-cancel="retry()"
+      :md-close-on-esc="false"
+      :md-click-outside-to-close="false"
       style="background: white"
     />
 
@@ -141,9 +143,7 @@ export default {
   methods: {
     retry () {
       this.finished = false
-      if (this.type === 'final') {
-        this.type = 'qualification'
-      }
+      this.startHandler(this.type === 'final' ? 'qualification' : this.type)
     },
     refresh () {
       location.reload();
