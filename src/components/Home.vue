@@ -63,8 +63,13 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-          <md-button class="col-lg-12 col-md-12 col-sm-12" style="color: white;" id="showshow" @click="startHandler()">
-            {{ playing ? 'Arrêter' : 'Jouer' }}
+          <md-button
+            v-for="_type in types" :key="_type"
+            :class="`${_type === type ? 'md-flat' : ''} md-raised backgroundcolor bordercolor`"
+            style="background-color: #ef4343;"
+            @click="startHandler(_type)"
+            >
+            {{ _type }}
           </md-button>
         </div>
       </div>
@@ -79,23 +84,12 @@
     </div>
 
     <md-dialog-confirm
-      v-if="playing"
-      :md-active.sync="type"
-      :md-backdrop="true"
-      md-cancel-text="Jouer les qualifications"
-      md-confirm-text="Aller en phase finale"
-      @md-cancel="qualificationHandler()"
-      @md-confirm="finalHandler()"
-      style="background: white"
-    />
-
-    <md-dialog-confirm
       :md-active.sync="final"
       :md-backdrop="true"
       md-title="Vous venez de vous qualifier pour la finale"
       md-confirm-text="Aller en finale !"
       md-cancel-text=""
-      @md-confirm="finalHandler()"
+      @md-confirm="startHandler('final')"
       style="background: white"
     />
 
@@ -128,10 +122,13 @@ export default {
       showRules: false,
       finished: false,
       result: '',
-      playing: false,
-      type: true,
-      final: false
+      type: 'qualification',
+      final: false,
+      types: ['qualification', 'final', 'time attack']
     }
+  },
+  mounted () {
+    this.startHandler(this.type)
   },
   computed: {
     won () {
@@ -146,8 +143,9 @@ export default {
     refresh () {
       location.reload();
     },
-    startHandler () {
-      this.playing = !this.playing
+    startHandler (type) {
+      this.type = type
+      this.$refs.game.start(type)
     },
     wonHandler () {
       if (this.$refs.game.type === 'qualification') {
@@ -160,12 +158,6 @@ export default {
     lostHandler () {
       this.finished = true
       this.result = 'lost'
-    },
-    qualificationHandler () {
-      this.$refs.game.start('qualification')
-    },
-    finalHandler () {
-      this.$refs.game.start('final')
     },
     help (options = {}) {
       const finalOptions = {

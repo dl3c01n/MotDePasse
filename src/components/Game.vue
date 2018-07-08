@@ -25,7 +25,7 @@
         </div>
         <div class="row text-center">
           <div class="col-sm-12 col-lg-3 col-md-10">
-            <timer ref="timer" :duration="duration" :disabled="playing" @timeout="timeoutHandler" />
+            <timer ref="timer" :duration="duration" :disabled="!playing" @timeout="timeoutHandler" />
           </div>
         </div>
         <p v-if="ready">Appuyez sur START pour démarrer</p>
